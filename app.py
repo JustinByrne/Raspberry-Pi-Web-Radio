@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import subprocess
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, url_for
 
 app = Flask(__name__)
 process = None
@@ -35,7 +35,7 @@ def playRadio(stationName):
     #     bufsize=0
     # )
 
-    return redirect('/')
+    return redirect(url_for('index'))
 
 @app.route('/stop')
 def stopRadio():
@@ -47,7 +47,7 @@ def stopRadio():
     # if process is not None:
     #     process.stdin.write('q')
 
-    return redirect('/')
+    return redirect(url_for('index'))
 
 @app.route('/volume-up')
 def volumeUp():
@@ -56,7 +56,7 @@ def volumeUp():
     # if process is not None:
     #     process.stdin.write('*')
 
-    return redirect('/')
+    return redirect(url_for('index'))
 
 @app.route('/volume-down')
 def volumeDown():
@@ -65,7 +65,7 @@ def volumeDown():
     # if process is not None:
     #     process.stdin.write('/')
 
-    return redirect('/')
+    return redirect(url_for('index'))
 
 @app.route('/play-pause')
 def togglePlay():
@@ -74,7 +74,7 @@ def togglePlay():
     # if process is not None:
     #     process.stdin.write('p')
 
-    return redirect('/')
+    return redirect(url_for('index'))
 
 def getStationUrl(stationName):
     return 'hello'
