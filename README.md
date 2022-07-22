@@ -11,6 +11,12 @@ This site has a few system requirements. Majority of this are python related
 
 To install the requirements run the following
 
-```shell
+```bash
 pip install -r requirements.txt
+```
+
+Then the station file needs to be configured, copy the example using the following
+
+```bash
+cp stations.json.example stations.json
 ```

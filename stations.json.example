@@ -1,0 +1,9 @@
+{
+    "stations": [
+        {
+            "name": "Station name",
+            "slug": "station-name",
+            "url": "https://station.name"
+        }
+    ]
+}
