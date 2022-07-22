@@ -11,6 +11,6 @@ This site has a few system requirements. Majority of this are python related
 
 To install the requirements run the following
 
-```python
+```shell
 pip install -r requirements.txt
 ```
