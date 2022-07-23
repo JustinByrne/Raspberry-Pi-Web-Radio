@@ -9,6 +9,23 @@
     </head>
 
     <body>
-        <h1 class="text-lg"> Currently Playing: {{ currentStation }} </h1>        
+        <h1 class="text-lg"> Currently Playing: {{ currentStation }} </h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <td> Station name </td>
+                    <td> </td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for station in stations %}
+                    <tr>
+                        <td> {{ station['name'] }} </td>
+                        <td> <a href="/play/{{ station['slug'] }}"> Play </a> </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </body>
 </html>
