@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve raspberry pi web radio
+After=network.target
+
+[Service]
+User=<username>
+Group=www-data
+WorkingDirectory=/home/<username>/Raspberry-Pi-Web-Radio
+Environment="PATH=/home/<username>/Raspberry-Pi-Web-Radio/raspberrypiwebradioenv/bin"
+ExecStart=/home/<username>/Raspberry-Pi-Web-Radio/raspberrypiwebradioenv/bin/uwsgi --ini app.ini
+
+[Install]
+WantedBy=multi-user.target
