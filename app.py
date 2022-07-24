@@ -8,6 +8,7 @@ app = Flask(__name__)
 process = None
 currentStation = 'No station selected'
 pause = False
+volume = 50
 
 #
 #   Routes
@@ -16,9 +17,10 @@ pause = False
 def index():
     global currentStation
     global pause
+    global volume
 
     stations = getAllStations()
-    return render_template('index.html', currentStation=currentStation, pause=pause, stations=stations)
+    return render_template('index.html', currentStation=currentStation, pause=pause, volume=volume, stations=stations)
 
 @app.route('/play/<stationSlug>')
 def play(stationSlug):
@@ -33,11 +35,13 @@ def stop():
 @app.route('/volume-up')
 def volumeUp():
     sendKeyPress('*')
+    adjustVolume('up')
     return redirect(url_for('index'))
 
 @app.route('/volume-down')
 def volumeDown():
     sendKeyPress('/')
+    adjustVolume('down')
     return redirect(url_for('index'))
 
 @app.route('/play-pause')
@@ -57,10 +61,11 @@ def togglePlay():
 #
 def playStation(stationSlug):
     global process
+    global volume
 
     stopPlaying()
     setCurrentStation(getStationName(stationSlug))
-    process = subprocess.Popen(['mplayer', getStationUrl(stationSlug), '-softvol', '-volume', '50' ], \
+    process = subprocess.Popen(['mplayer', getStationUrl(stationSlug), '-softvol', '-volume', str(volume) ], \
         stdin=subprocess.PIPE, \
         stdout=None, \
         stderr=None, \
@@ -108,6 +113,21 @@ def getAllStations():
     file = open('stations.json')
     data = json.load(file)
     return data['stations']
+
+def adjustVolume(direction):
+    global volume
+
+    if direction == 'up':
+        volume = volume + 3
+    
+    if direction == 'down':
+        volume = volume - 3
+    
+    if volume > 100:
+        volume = 100
+    
+    if volume < 0:
+        volume = 0
 
 if __name__ == '__main__':
     app.run()
