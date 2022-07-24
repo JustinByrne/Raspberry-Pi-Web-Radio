@@ -8,24 +8,91 @@
         <link href="{{ url_for('static',filename='style.css') }}" rel="stylesheet">
     </head>
 
-    <body>
-        <h1 class="text-lg"> Currently Playing: {{ currentStation }} </h1>
+    <body class="dark">
+        <div class="h-screen w-screen bg-gray-100 dark:bg-gray-900">
+            <div class="p-8 md:container md:mx-auto md:px-0">
+                <div class="flex flex-col md:flex-row md:justify-between">
+                    <h1 class="text-lg text-gray-900 dark:text-gray-200 font-semibold"> Currently Playing: {{ currentStation }} </h1>
 
-        <table>
-            <thead>
-                <tr>
-                    <td> Station name </td>
-                    <td> </td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for station in stations %}
-                    <tr>
-                        <td> {{ station['name'] }} </td>
-                        <td> <a href="/play/{{ station['slug'] }}"> Play </a> </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    <span class="flex items-center">
+                        <span class="text-gray-700 dark:text-gray-400 mr-3"> Volume: </span>
+                        <span class="relative z-0 inline-flex shadow-sm rounded-md">
+                            <a href="{{ url_for('volumeDown') }}" class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-300 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+    
+                            <span type="button" class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-400"> 50 </span>
+    
+                            <a href="{{ url_for('volumeUp') }}" class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-300 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                        </span>
+                    </span>
+                </div>
+        
+                <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-6">
+                    {% for station in stations %}
+                        <li class="col-span-1 bg-white dark:bg-gray-800 rounded-lg shadow-md divide-y divide-gray-200 dark:divide-gray-600">
+                            <div class="w-full flex items-center justify-between p-6 space-x-6">
+                                <div class="flex-1 truncate">
+                                    <div class="flex items-center space-x-3">
+                                        <h3 class="text-gray-900 dark:text-gray-200 text-sm font-medium truncate"> {{ station['name'] }} </h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="-mt-px flex divide-x divide-gray-200 dark:divide-gray-600">
+                                    {% if currentStation != station['name'] %}
+                                        <div class="w-0 flex-1 flex">
+                                            <a href="/play/{{ station['slug'] }}" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                                                </svg>
+
+                                                <span class="ml-3 dark:text-gray-400"> Play </span>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if currentStation == station['name'] %}
+                                        <div class="w-0 flex-1 flex">
+                                            <a href="{{ url_for('togglePlay') }}" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                                                {% if pause %}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                                                    </svg>
+
+                                                    <span class="ml-3 dark:text-gray-400"> Play </span>
+                                                {% else %}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                                    </svg>
+
+                                                    <span class="ml-3 dark:text-gray-400"> Pause </span>
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="-ml-px w-0 flex-1 flex">
+                                            <a href="/stop" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clip-rule="evenodd" />
+                                                </svg>
+
+                                                <span class="ml-3 dark:text-gray-400"> Stop </span>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </body>
 </html>
