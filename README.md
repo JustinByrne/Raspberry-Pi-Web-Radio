@@ -57,7 +57,7 @@ Firstly copy the service file
 cp raspberrypiwebradio.service.example raspberrypiwebradio.service
 ```
 
-Edit the service replacing `<username>` with your username this is usually `pi`. The move the service to the services directory.
+Edit the service replacing `<username>` with your username this is usually `pi`. Then move the service to the services directory.
 
 ```bash
 sudo mv raspberrypiwebradio.service /etc/systemd/system/raspberrypiwebradio.service
