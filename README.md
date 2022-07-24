@@ -6,6 +6,7 @@ A python flask based web radio with the ability to play internet radio station
 
 This site has a few system requirements. Majority of this are python related
 
+* mplayer
 * python 3
 * pip 3
 
