@@ -7,6 +7,7 @@ from flask import Flask, render_template, redirect, url_for
 app = Flask(__name__)
 process = None
 currentStation = 'No station selected'
+pause = False
 
 #
 #   Routes
@@ -14,9 +15,10 @@ currentStation = 'No station selected'
 @app.route('/')
 def index():
     global currentStation
+    global pause
 
     stations = getAllStations()
-    return render_template('index.html', currentStation=currentStation, stations=stations)
+    return render_template('index.html', currentStation=currentStation, pause=pause, stations=stations)
 
 @app.route('/play/<stationSlug>')
 def play(stationSlug):
@@ -40,7 +42,13 @@ def volumeDown():
 
 @app.route('/play-pause')
 def togglePlay():
+    global pause
+    
     sendKeyPress('p')
+    if pause == True:
+        pause = False
+    elif pause == False:
+        pause = True
     return redirect(url_for('index'))
 
 
@@ -57,6 +65,7 @@ def playStation(stationSlug):
         stdout=None, \
         stderr=None, \
         bufsize=0)
+    
 
 def stopPlaying():
     global process
