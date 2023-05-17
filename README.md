@@ -43,7 +43,7 @@ To install the requirements run the following
 pip install -r requirements.txt
 ```
 
-Then the station file needs to be configured, copy the example using the following
+Then the station file needs to be configured, stations can be found at the following website (Radio Browser)[https://www.radio-browser.info/], copy the example using the following
 
 ```bash
 cp stations.json.example stations.json
